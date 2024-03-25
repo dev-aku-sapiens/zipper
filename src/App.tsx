@@ -82,12 +82,38 @@ const App = () => {
       </header>
 
       <main className='flex-grow p-4 flex flex-col items-center justify-start space-y-4'>
-        <input
-          type='file'
-          accept='.csv'
-          onChange={handleFileUpload}
-          className='mb-4'
-        />
+        <div className='flex flex-col justify-between items-center mb-2'>
+          <label className='cursor-pointer bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center'>
+            <svg
+              className='w-4 h-4 mr-2 -ml-1'
+              fill='currentColor'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 20 20'
+            >
+              <path
+                fill-rule='evenodd'
+                d='M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm2 2a1 1 0 112 0v5a1 1 0 11-2 0V5zm3 1a1 1 0 100 2h2a1 1 0 100-2H9zm-3 4a1 1 0 100 2h2a1 1 0 100-2H6zm4 1a1 1 0 110 2h2a1 1 0 110-2h-2z'
+                clip-rule='evenodd'
+              />
+            </svg>
+            Upload CSV
+            <input
+              id='file-upload'
+              type='file'
+              accept='.csv'
+              className='hidden'
+              onChange={handleFileUpload}
+            />
+          </label>
+
+          <span className='file-count mt-2'>
+            {fileContent?.filter((item) => item?.selected)?.length} file
+            {fileContent?.filter((item) => item?.selected)?.length > 1
+              ? 's'
+              : ''}{' '}
+            selected
+          </span>
+        </div>
         <Table
           data={fileContent}
           onSelect={(index: number) => {

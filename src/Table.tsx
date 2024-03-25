@@ -18,7 +18,7 @@ const Table: React.FC<TableProps> = ({ data, onSelect, onSelectAll }) => {
   };
 
   return (
-    <div className='w-full max-h-[75vh] h-[75vh] overflow-y-auto border border-red-500'>
+    <div className='w-full max-h-[73vh] h-[73vh] overflow-y-auto border border-red-500'>
       <table className='min-w-full'>
         <thead className='bg-gray-100 sticky top-0'>
           <tr>
