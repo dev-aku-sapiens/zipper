@@ -19,10 +19,18 @@ const App = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target?.result as string;
+      const seenUrls = new Set();
       const objects = text
         .split('\n')
         .filter((line) => line)
-        .map((url) => ({ url, selected: false }));
+        .map((url) => ({ url, selected: false }))
+        .filter((obj) => {
+          if (!seenUrls.has(obj.url)) {
+            seenUrls.add(obj.url);
+            return true;
+          }
+          return false;
+        });
       setFileContent(objects);
     };
     reader.readAsText(file);
@@ -43,12 +51,20 @@ const App = () => {
         try {
           const response = await fetch(url);
           const blob = await response.blob();
-          zip.file(`image${i + index + 1}.${blob.type.split('/')[1]}`, blob, {
+
+          const urlParts = url.split('/');
+          let fileName =
+            urlParts[urlParts.length - 1] || `image${i + index + 1}`;
+
+          if (!fileName.includes('.')) {
+            fileName += `.${blob.type.split('/')[1]}`;
+          }
+          zip.file(fileName, blob, {
             binary: true,
           });
           filesDownloaded++;
           const progress = (filesDownloaded / totalFiles) * 100;
-          setUploadProgress(progress); // Update the progress
+          setUploadProgress(progress);
         } catch (error) {
           console.error('Error with image:', url, error);
         }
